@@ -23,6 +23,15 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    token :{
+        type: String,
+    },
+})
+
+UserSchema.virtual('books' , {
+    ref : 'Book',
+    foreignField : 'createdBy',
+    localField : '_id'
 })
 
 UserSchema.pre('save' ,async function (next) {
@@ -33,7 +42,6 @@ UserSchema.pre('save' ,async function (next) {
 
 UserSchema.methods.isPasswordMatch = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword , this.password)
-    
 }
 
 const User = mongoose.model('User' , UserSchema)

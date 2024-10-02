@@ -6,7 +6,7 @@ const authMiddlware = require("../middleware/authMiddleware");
 
 const bookRouter = express.Router();
 
-bookRouter.post('', expressAsyncHandler(async(req, res) =>{
+bookRouter.post('/', authMiddlware, expressAsyncHandler(async(req, res) =>{
     const book = await Book.create(req.body);
 
     if(book){
